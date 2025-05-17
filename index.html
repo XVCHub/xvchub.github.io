@@ -123,15 +123,31 @@
       font-weight: 700;
       font-size: 1.5rem;
       color: var(--primary);
+      cursor: default;
+    }
+
+    /* Settings Button */
+    .settings-btn {
+      position: absolute;
+      right: 2rem;
+      top: 1.2rem;
+      font-size: 1.3rem;
+      color: var(--primary);
       cursor: pointer;
+      transition: transform 0.3s ease;
+      z-index: 101;
+    }
+    
+    .settings-btn:hover {
+      transform: rotate(30deg);
+      color: var(--accent);
     }
 
     /* Settings Panel */
     .settings-panel {
       position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0.8);
+      top: 5rem;
+      right: 2rem;
       background: var(--card-bg);
       border-radius: 15px;
       padding: 1.5rem;
@@ -145,9 +161,9 @@
     }
 
     .settings-panel.open {
-      transform: translate(-50%, -50%) scale(1);
       opacity: 1;
       pointer-events: auto;
+      transform: translateY(0);
     }
 
     .settings-title {
@@ -546,6 +562,11 @@
         margin-bottom: 0.5rem;
       }
 
+      .settings-btn {
+        position: static;
+        margin-top: 0.5rem;
+      }
+
       .section {
         padding: 7rem 1rem 1rem;
       }
@@ -553,6 +574,8 @@
       .settings-panel {
         width: 90%;
         max-width: 350px;
+        right: 5%;
+        left: auto;
       }
 
       .games-grid {
@@ -589,10 +612,13 @@
   <div class="overlay" id="overlay"></div>
 
   <nav>
-    <div class="nav-logo" id="settingsToggle">XVC HUB</div>
+    <div class="nav-logo">XVC HUB</div>
     <a href="#" onclick="goToTab(0)"><i class="fas fa-code"></i> Script</a>
     <a href="#" onclick="goToTab(1)"><i class="fas fa-gamepad"></i> Games</a>
     <a href="#" onclick="goToTab(2)"><i class="fas fa-users"></i> Community</a>
+    <div class="settings-btn" id="settingsBtn">
+      <i class="fas fa-cog"></i>
+    </div>
   </nav>
 
   <!-- Settings Panel -->
@@ -739,7 +765,7 @@
       { name: "Third8702", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-616BA4955BDB03EE157CC0118B4C31EC-Png/150/150/AvatarHeadshot/Webp/noFilter", comment: "How do I fuck myself?" },
       { name: "qreqru01", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-5F2FD46715D2113729F343CBCF7804C6-Png/150/150/AvatarHeadshot/Webp/noFilter", comment: "meow" },
       { name: "WinterArcOh", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-758E7F4F7E44D4333C1F4BC4B0D47150-Png/150/150/AvatarHeadshot/Webp/noFilter", comment: "great" },
-      { name: "Johmsoniburpee", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3C8E1E910BB0507B5D42F551BE19A43B-Png/150/150/AvatarHeadshot/Webp/noFilter", comment: "Skibidi},
+      { name: "Johmsoniburpee", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-3C8E1E910BB0507B5D42F551BE19A43B-Png/150/150/AvatarHeadshot/Webp/noFilter", comment: "Skibidi" },
       { name: "trhdcgjlkytsterfg", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-627B6C8BCB74C3DDED26DBB143264003-Png/150/150/AvatarHeadshot/Webp/noFilter", comment: "really really good script. amazing" },
       { name: "olommw", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-0E22A39EE0D35293EF13F64F78C7A171-Png/150/150/AvatarHeadshot/Webp/noFilter", comment: "BEST TOP 99" },
       { name: "zxcqwe054", image: "https://tr.rbxcdn.com/30DAY-AvatarHeadshot-81F4466FE1C4916092B7A976A2608583-Png/150/150/AvatarHeadshot/Webp/noFilter", comment: "COOL HUB DUDE KEEP THE GOOD WORK :)" },
@@ -763,7 +789,7 @@
       document.getElementById('gameSearch').addEventListener('input', searchGames);
       
       // Set up settings toggle
-      document.getElementById('settingsToggle').addEventListener('click', openSettings);
+      document.getElementById('settingsBtn').addEventListener('click', openSettings);
       document.getElementById('closeSettings').addEventListener('click', closeSettings);
       document.getElementById('overlay').addEventListener('click', closeSettings);
       
