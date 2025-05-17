@@ -1,30 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>XVC Hub</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(#0f0f0f, #000);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      background: linear-gradient(135deg, #000, #111);
+    }
+
+    header h1 {
+      font-size: 4rem;
+      color: #00fff7;
+    }
+
+    header p {
+      font-size: 1.5rem;
+      color: #aaa;
+      margin-top: 1rem;
+    }
+
+    nav {
+      background: #111;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      color: #00fff7;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    section {
+      padding: 5rem 2rem;
+      min-height: 100vh;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #00fff7;
+      text-align: center;
+    }
+
+    .script-box {
+      background: #111;
+      border: 1px solid #00fff7;
+      padding: 1rem;
+      border-radius: 10px;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      font-family: monospace;
+      position: relative;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: #00fff7;
+      color: #000;
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    .copy-btn:hover {
+      background: #00d1cc;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .game-card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      border-color: #00fff7;
+    }
+
+    .users-scroll {
+      display: flex;
+      overflow-x: auto;
+      gap: 1rem;
+      padding: 1rem;
+      scroll-snap-type: x mandatory;
+    }
+
+    .user-card {
+      flex: 0 0 auto;
+      background: #1a1a1a;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      scroll-snap-align: start;
+      min-width: 200px;
+      border: 1px solid #333;
+    }
+
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #333;
+      margin: 0 auto 1rem;
+    }
+
+    .user-name {
+      font-weight: bold;
+      color: #00fff7;
+    }
+  </style>
 </head>
+
 <body>
-  <canvas id="background"></canvas>
+  <header>
+    <h1>XVC Hub</h1>
+    <p>The Best Script Hub.</p>
+  </header>
 
-  <div class="tab-container">
-    <div class="tabs">
-      <button class="tab-button active" data-tab="script">Script</button>
-      <button class="tab-button" data-tab="games">Supported Games</button>
-      <button class="tab-button" data-tab="users">Script Users</button>
+  <nav>
+    <a href="#script">Script</a>
+    <a href="#games">Supported Games</a>
+    <a href="#users">Script Users</a>
+  </nav>
+
+  <section id="script">
+    <h2 class="section-title">Script</h2>
+    <div class="script-box" id="scriptBox">
+      loadstring(game:HttpGet("https://pastebin.com/raw/Piw5bqGq"))()
+      <button class="copy-btn" onclick="copyScript()">Copy</button>
     </div>
+  </section>
 
-    <div id="script" class="tab-content active">
-      <h1>XVC Hub</h1>
-      <p>The Best Script Hub!</p>
-      <button onclick="copyScript()">Copy Script</button>
-    </div>
-
-    <div id="games" class="tab-content">
-      <h2>Supported Games</h2>
-      <ul>
+  <section id="games">
+    <h2 class="section-title">Supported Games</h2>
+    <div class="games-grid">
 3008
 100 players Maze
 100 Player Slippery Stairs
@@ -145,22 +302,32 @@ untitled drill game
 untitled boxing game
 Work at a Pizza Place
 Zombie Attack
-        <!-- Sen buraya istediğin kadar oyun ekleyeceksin -->
-      </ul>
     </div>
+  </section>
 
-    <div id="users" class="tab-content">
-      <h2>Script Users</h2>
-      <div class="slider">
-        <div class="comment">
-          <img src="anon-avatar.png" class="avatar" />
-          <p><strong>imharshBANNEDagain</strong><br />⭐⭐⭐⭐⭐<br />Amazing hub!</p>
-        </div>
-        <!-- Daha fazla yorum eklenebilir -->
+  <section id="users">
+    <h2 class="section-title">Script Users</h2>
+    <div class="users-scroll">
+      <div class="user-card">
+        <div class="user-avatar"></div>
+        <div class="user-name">imharshBANNEDagain</div>
+        <p>IT VERY GOOD BRO</p>
+      </div>
+      <div class="user-card">
+        <div class="user-avatar"></div>
+        <div class="user-name">Third8702</div>
+        <p>How do I fuck myself</p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <script src="script.js"></script>
+  <script>
+    function copyScript() {
+      const code = `loadstring(game:HttpGet(\"https://pastebin.com/raw/Piw5bqGq\"))()`;
+      navigator.clipboard.writeText(code);
+      alert("Script copied to clipboard!");
+    }
+  </script>
 </body>
+
 </html>
