@@ -4,8 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>XVC Hub</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    :root {
+      --primary: #00f2ff;
+      --primary-dark: #00c4d0;
+      --secondary: #1a1a1a;
+      --accent: #ff00aa;
+      --text: #ffffff;
+      --text-secondary: #aaaaaa;
+      --card-bg: #1e1e1e;
+      --nav-bg: #121212ee;
+      --success: #00ff88;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -15,29 +28,42 @@
 
     body {
       background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-      color: #fff;
+      color: var(--text);
       overflow-x: hidden;
+      min-height: 100vh;
     }
 
+    /* Navigation */
     nav {
       position: fixed;
       top: 0;
       width: 100%;
-      background: #121212;
+      background: var(--nav-bg);
       padding: 1rem 2rem;
       display: flex;
       justify-content: center;
       gap: 2rem;
-      z-index: 10;
-      border-bottom: 1px solid #00f2ff33;
+      z-index: 100;
+      border-bottom: 1px solid var(--primary);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     nav a {
-      color: #0ff;
+      color: var(--primary);
       text-decoration: none;
-      font-size: 1rem;
+      font-size: 1.1rem;
       position: relative;
-      padding-bottom: 4px;
+      padding: 0.5rem 0;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav a i {
+      font-size: 1.2rem;
     }
 
     nav a::after {
@@ -47,153 +73,872 @@
       height: 2px;
       bottom: 0;
       left: 0;
-      background-color: #0ff;
+      background-color: var(--primary);
       transform: scaleX(0);
       transition: transform 0.3s ease;
+    }
+
+    nav a:hover {
+      color: var(--text);
+      text-shadow: 0 0 8px var(--primary);
     }
 
     nav a:hover::after {
       transform: scaleX(1);
     }
 
+    .nav-logo {
+      position: absolute;
+      left: 2rem;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary);
+      text-shadow: 0 0 10px var(--primary);
+    }
+
+    /* Main Content */
     .content {
       display: flex;
-      transition: transform 0.8s ease;
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
       width: 300vw;
     }
 
     .section {
       height: 100vh;
       width: 100vw;
-      padding: 6rem 4rem 2rem 4rem;
+      padding: 8rem 4rem 2rem;
       flex-shrink: 0;
       overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) transparent;
+    }
+
+    .section::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .section::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 3px;
     }
 
     .section-title {
-      font-size: 2.2rem;
+      font-size: 2.5rem;
       margin-bottom: 2rem;
-      color: #00f2ff;
-      text-shadow: 0 0 10px #00f2ff55;
+      color: var(--primary);
+      text-shadow: 0 0 15px var(--primary);
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
     }
 
-    .copy-area button {
-      background: linear-gradient(135deg, #00f2ff, #0ff);
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), transparent);
+      border-radius: 3px;
+    }
+
+    /* Script Section */
+    .script-container {
+      background: var(--card-bg);
+      border-radius: 15px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      border-left: 5px solid var(--primary);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      max-width: 800px;
+      margin: 0 auto 2rem;
+    }
+
+    .script-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .script-version {
+      background: var(--primary);
+      color: #000;
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .script-features {
+      margin-bottom: 1.5rem;
+    }
+
+    .features-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .feature-item {
+      background: rgba(0, 242, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .feature-item:hover {
+      transform: translateY(-5px);
+      background: rgba(0, 242, 255, 0.2);
+    }
+
+    .feature-icon {
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .copy-area {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
       color: #000;
       padding: 1rem 2rem;
       border: none;
       cursor: pointer;
       font-size: 1rem;
       border-radius: 8px;
-      box-shadow: 0 0 12px #00f2ff88;
-      transition: 0.3s ease;
-    }
-
-    .copy-area button:hover {
-      transform: scale(1.05);
-      background: linear-gradient(135deg, #0ff, #00e1e1);
-    }
-
-    .games-list {
+      box-shadow: 0 5px 15px rgba(0, 242, 255, 0.3);
+      transition: all 0.3s ease;
+      font-weight: 600;
       display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
+      align-items: center;
+      gap: 0.5rem;
+      min-width: 200px;
+      justify-content: center;
     }
 
-    .games-list .game-card {
-      background: #1e1e1e;
-      padding: 1rem 1.5rem;
-      border-radius: 10px;
-      border-left: 4px solid #00f2ff;
-      box-shadow: 0 0 8px #00f2ff44;
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 242, 255, 0.5);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(0, 242, 255, 0.1);
+    }
+
+    .btn-accent {
+      background: linear-gradient(135deg, var(--accent), #ff0066);
+      box-shadow: 0 5px 15px rgba(255, 0, 170, 0.3);
+    }
+
+    .btn-accent:hover {
+      box-shadow: 0 8px 20px rgba(255, 0, 170, 0.5);
+    }
+
+    /* Games Section */
+    .games-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .game-card {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border-left: 5px solid var(--primary);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 242, 255, 0.2);
+    }
+
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(0, 242, 255, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .game-card:hover::before {
+      opacity: 1;
+    }
+
+    .game-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .game-description {
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+
+    .game-features {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .game-features li {
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .game-features i {
+      color: var(--primary);
+      font-size: 0.8rem;
+    }
+
+    .game-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      border: 2px solid rgba(0, 242, 255, 0.3);
+    }
+
+    /* Users Section */
+    .users-container {
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .users-slider {
       display: flex;
-      gap: 1rem;
+      gap: 1.5rem;
       overflow-x: auto;
-      padding-bottom: 1rem;
-      scrollbar-width: none;
+      padding: 1rem 0 2rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--primary) transparent;
+      scroll-snap-type: x mandatory;
+    }
+
+    .users-slider::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .users-slider::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 3px;
     }
 
     .user-card {
-      background: #1a1a1a;
-      padding: 1rem;
-      min-width: 180px;
-      border-radius: 12px;
-      box-shadow: 0 0 12px #0ff4;
+      background: var(--card-bg);
+      padding: 1.5rem;
+      min-width: 280px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       text-align: center;
       flex-shrink: 0;
+      transition: all 0.3s ease;
+      scroll-snap-align: start;
+      border: 1px solid rgba(0, 242, 255, 0.2);
+      position: relative;
+    }
+
+    .user-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 242, 255, 0.2);
+    }
+
+    .user-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
     }
 
     .user-card img {
-      width: 60px;
-      height: 60px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 3px solid var(--primary);
+      object-fit: cover;
+      box-shadow: 0 0 20px var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .user-card:hover img {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px var(--primary);
+    }
+
+    .user-name {
+      font-weight: 700;
       margin-bottom: 0.5rem;
-      border: 2px solid #0ff;
+      color: var(--primary);
+    }
+
+    .user-comment {
+      color: var(--text-secondary);
+      font-style: italic;
+      margin-bottom: 1rem;
+    }
+
+    .user-rating {
+      color: gold;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Stats Section */
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem auto;
+      max-width: 1000px;
+    }
+
+    .stat-card {
+      background: rgba(0, 242, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0, 242, 255, 0.2);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      background: rgba(0, 242, 255, 0.2);
+      box-shadow: 0 10px 20px rgba(0, 242, 255, 0.1);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.5rem;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Notification */
+    .notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--success);
+      color: #000;
+      padding: 1rem 2rem;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 600;
+    }
+
+    .notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem;
+        gap: 1rem;
+      }
+
+      .nav-logo {
+        position: static;
+        margin-bottom: 0.5rem;
+      }
+
+      .section {
+        padding: 7rem 1.5rem 2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .games-list {
+        grid-template-columns: 1fr;
+      }
+
+      .user-card {
+        min-width: 250px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    .floating {
+      animation: float 3s ease-in-out infinite;
     }
   </style>
 </head>
 <body>
   <nav>
-    <a href="#" onclick="goToTab(0)">Script</a>
-    <a href="#" onclick="goToTab(1)">Supported Games</a>
-    <a href="#" onclick="goToTab(2)">Script Users</a>
+    <div class="nav-logo">XVC HUB</div>
+    <a href="#" onclick="goToTab(0)"><i class="fas fa-code"></i> Script</a>
+    <a href="#" onclick="goToTab(1)"><i class="fas fa-gamepad"></i> Supported Games</a>
+    <a href="#" onclick="goToTab(2)"><i class="fas fa-users"></i> Community</a>
   </nav>
 
   <div class="content" id="tabContainer">
     <!-- Script Tab -->
     <section class="section" id="script">
       <div class="section-title">XVC Hub Script</div>
-      <div class="copy-area">
-        <button onclick="copyScript()">Copy Script</button>
+      
+      <div class="script-container">
+        <div class="script-header">
+          <h3>XVC Hub</h3>
+          <span class="script-version">PREMIUM</span>
+        </div>
+        
+        <p>The Best Script Hub.</p>
+        
+        <div class="script-features">
+          <h4>Key Features:</h4>
+          <div class="features-list">
+            <div class="feature-item">
+              <i class="fas fa-bolt feature-icon"></i>
+              <span>Two Library</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-shield-alt feature-icon"></i>
+              <span>Advanced Scripts</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-sync-alt feature-icon"></i>
+              <span>Auto-update system</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-cogs feature-icon"></i>
+              <span>Customizable UI</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-gamepad feature-icon"></i>
+              <span>100+ game support</span>
+            </div>
+            <div class="feature-item">
+              <i class="fas fa-headset feature-icon"></i>
+              <span>24/7 support</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="copy-area">
+          <button class="btn" onclick="copyScript()">
+            <i class="fas fa-copy"></i> Copy Script
+          </button>
+          <button class="btn btn-secondary" onclick="showDiscord()">
+            <i class="fab fa-discord"></i> Join Discord
+          </button>
+          <button class="btn btn-accent" onclick="showPremium()">
+            <i class="fas fa-crown"></i> Get Premium
+          </button>
+        </div>
+      </div>
+      
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-number" id="userCount">1K+</div>
+          <div class="stat-label">Active Users</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">Supported Games</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">Support Available</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">90%</div>
+          <div class="stat-label">Uptime</div>
+        </div>
       </div>
     </section>
 
     <!-- Supported Games Tab -->
     <section class="section" id="games">
       <div class="section-title">Supported Games</div>
-      <div class="games-list">
-        <div class="game-card">Game 1 - Description</div>
-        <div class="game-card">Game 2 - Description</div>
-        <div class="game-card">Game 3 - Description</div>
-        <div class="game-card">Game 4 - Description</div>
-        <!-- Eklemeye devam edebilirsin -->
+      
+      <div class="games-container">
+        <div class="games-grid">
+          <div class="game-item">3008</div>
+          <div class="game-item">100 players Maze</div>
+          <div class="game-item">100 Player Slippery Stairs</div>
+          <div class="game-item">+1 Speed Maze</div>
+          <div class="game-item">Arsenal</div>
+          <div class="game-item">A dusty trip</div>
+          <div class="game-item">Arise Crossover</div>
+          <div class="game-item">Anime Card Master</div>
+          <div class="game-item">Brookhaven RP</div>
+          <div class="game-item">Blade Ball</div>
+          <div class="game-item">Break In 2</div>
+          <div class="game-item">Blox Fruits</div>
+          <div class="game-item">Blue Lock: Rivals</div>
+          <div class="game-item">Brainrot IQ Test</div>
+          <div class="game-item">BedWars</div>
+          <div class="game-item">Breeding ranch</div>
+          <div class="game-item">Brainrot Evolution</div>
+          <div class="game-item">BIG Paintball 2</div>
+          <div class="game-item">Baddies</div>
+          <div class="game-item">Build A Boat For Treasure</div>
+          <div class="game-item">Bubble Gum Simulator INFINITY</div>
+          <div class="game-item">BARRY'S PRISON RUN</div>
+          <div class="game-item">Babu's Wall Hop Difficulty Chart 2</div>
+          <div class="game-item">Become a Plane and Fly</div>
+          <div class="game-item">Broken Bones IV - Ragdoll Sim</div>
+          <div class="game-item">Combat Warriors</div>
+          <div class="game-item">Counter Blox</div>
+          <div class="game-item">Chaos</div>
+          <div class="game-item">Color Game</div>
+          <div class="game-item">Climb and Jump Tower</div>
+          <div class="game-item">Dead Rails</div>
+          <div class="game-item">Dead Rivers</div>
+          <div class="game-item">DOORS</div>
+          <div class="game-item">Dress To Impress</div>
+          <div class="game-item">Da Hood</div>
+          <div class="game-item">Dig to Earth's CORE</div>
+          <div class="game-item">Dig the Backyard</div>
+          <div class="game-item">Desert Detectors</div>
+          <div class="game-item">Drill Digging Simulator</div>
+          <div class="game-item">Evade</div>
+          <div class="game-item">E.R.P.O.</div>
+          <div class="game-item">Eat Pizza to Grow GIGACHAD</div>
+          <div class="game-item">Elemental Powers Tycoon</div>
+          <div class="game-item">Fisch</div>
+          <div class="game-item">Forsaken</div>
+          <div class="game-item">Fling Things and People</div>
+          <div class="game-item">Flag Wars</div>
+          <div class="game-item">Fish Training</div>
+          <div class="game-item">Funky Friday</div>
+          <div class="game-item">GEF</div>
+          <div class="game-item">Grow Crystals</div>
+          <div class="game-item">Grow a Garden</div>
+          <div class="game-item">Gunfight Arena</div>
+          <div class="game-item">Gun Grounds FFA</div>
+          <div class="game-item">Gang up on people simulator</div>
+          <div class="game-item">Guess the Drawings</div>
+          <div class="game-item">Gym Track Race</div>
+          <div class="game-item">GO FISHING</div>
+          <div class="game-item">Horse Race</div>
+          <div class="game-item">Horrific Housing</div>
+          <div class="game-item">IQ Test</div>
+          <div class="game-item">Insane Elevator Testing</div>
+          <div class="game-item">Ice Tycoon</div>
+          <div class="game-item">Jail Break</div>
+          <div class="game-item">Jetpack Training</div>
+          <div class="game-item">KAT</div>
+          <div class="game-item">Lumber Tycoon 2</div>
+          <div class="game-item">Level Below</div>
+          <div class="game-item">Legends Of Speed</div>
+          <div class="game-item">Lootify</div>
+          <div class="game-item">LUCKY BLOCKS Battlegrounds</div>
+          <div class="game-item">Murder Mystery 2</div>
+          <div class="game-item">Muscle Legends</div>
+          <div class="game-item">Merge Tower Defense</div>
+          <div class="game-item">Meme Sea</div>
+          <div class="game-item">MIC UP</div>
+          <div class="game-item">Murderers VS Sheriffs Duels</div>
+          <div class="game-item">Math Murder</div>
+          <div class="game-item">Merge for SPEED</div>
+          <div class="game-item">Musical Chairs</div>
+          <div class="game-item">MINGLE [Carousel Game]</div>
+          <div class="game-item">Natural Disaster Survival</div>
+          <div class="game-item">Noob Defense</div>
+          <div class="game-item">Ninja Legends</div>
+          <div class="game-item">No Cooldown Doomspire</div>
+          <div class="game-item">Prison Life</div>
+          <div class="game-item">PETS GO</div>
+          <div class="game-item">Pet Simulator 99</div>
+          <div class="game-item">PLS DONATE</div>
+          <div class="game-item">Piggy</div>
+          <div class="game-item">Prison Pump</div>
+          <div class="game-item">Rivals</div>
+          <div class="game-item">Rebirth Champions: Ultimate</div>
+          <div class="game-item">Roll A Friend</div>
+          <div class="game-item">Ray's Mod</div>
+          <div class="game-item">Rock Fruit</div>
+          <div class="game-item">Shrimp Game</div>
+          <div class="game-item">Survive and Kill the Killers in Area 51</div>
+          <div class="game-item">Scary Spelling</div>
+          <div class="game-item">Spelling Bee</div>
+          <div class="game-item">Supermarket Simulator</div>
+          <div class="game-item">Slap Battles</div>
+          <div class="game-item">Super Villain Tycoon</div>
+          <div class="game-item">Squid Game X</div>
+          <div class="game-item">Stairs To Heaven</div>
+          <div class="game-item">starving artists</div>
+          <div class="game-item">Sisyphus Training</div>
+          <div class="game-item">Survive The Killer</div>
+          <div class="game-item">Skinwalkers</div>
+          <div class="game-item">Taxi Boss</div>
+          <div class="game-item">The Strongest Battlegrounds</div>
+          <div class="game-item">Throw stuff for money</div>
+          <div class="game-item">The Chosen One</div>
+          <div class="game-item">Unnamed Shooter</div>
+          <div class="game-item">Ultimate Mining Tycoon</div>
+          <div class="game-item">untitled tag game</div>
+          <div class="game-item">untitled drill game</div>
+          <div class="game-item">untitled boxing game</div>
+          <div class="game-item">Work at a Pizza Place</div>
+          <div class="game-item">Zombie Attack</div>
+        </div>
       </div>
     </section>
 
     <!-- Script Users Tab -->
     <section class="section" id="users">
-      <div class="section-title">Script Users</div>
-      <div class="users-slider">
-        <div class="user-card">
-          <img src="https://i.imgur.com/0y0y0y0.png" alt="anonymous" />
-          Anonymous<br>nice bro good fe animations
+      <div class="section-title">Our Community</div>
+      
+      <div class="users-container">
+        <div class="users-slider">
+          <div class="user-card floating">
+            <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-09142970B66D526CA745424C6D9C6192-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="bravestradbee" />
+            <div class="user-name">bravestradbee</div>
+            <div class="user-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="user-comment">"nice script."</div>
+          </div>
+          
+          <div class="user-card floating" style="animation-delay: 0.2s">
+            <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-6E5833E59CE4F1BA4574A4CB7B9A97AF-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="imharshBANNEDagain" />
+            <div class="user-name">imharshBANNEDagain</div>
+            <div class="user-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <div class="user-comment">"IT VERY GOOD BRO."</div>
+          </div>
+          
+          <div class="user-card floating" style="animation-delay: 0.4s">
+            <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-616BA4955BDB03EE157CC0118B4C31EC-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Third8702" />
+            <div class="user-name">Third8702</div>
+            <div class="user-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="user-comment">"How do I fuck myself?"</div>
+          </div>
+          
+          <div class="user-card floating" style="animation-delay: 0.6s">
+            <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-627B6C8BCB74C3DDED26DBB143264003-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="trhdcgjlkytsterfg" />
+            <div class="user-name">trhdcgjlkytsterfg</div>
+            <div class="user-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="user-comment">"really really good script. amazing"</div>
+          </div>
+          
+          <div class="user-card floating" style="animation-delay: 0.8s">
+            <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-A834F0C36639BB32E3EAC4552DC92F55-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="bestcharacter798" />
+            <div class="user-name">bestcharacter798</div>
+            <div class="user-rating">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+            <div class="user-comment">"this is a cool script w"</div>
+          </div>
         </div>
-        <div class="user-card">
-          <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-6E5833E59CE4F1BA4574A4CB7B9A97AF-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="imharshBANNEDagain" />
-          imharshBANNEDagain<br>IT VERY GOOD BRO
-        </div>
-        <div class="user-card">
-          <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-616BA4955BDB03EE157CC0118B4C31EC-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Third8702" />
-          Third8702<br>How do I fuck myself
+        
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-number">4/5</div>
+            <div class="stat-label">Average Rating</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">1000+</div>
+            <div class="stat-label">Daily Active Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">81%</div>
+            <div class="stat-label">Satisfaction Rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">24h</div>
+            <div class="stat-label">Avg. Response Time</div>
+          </div>
         </div>
       </div>
     </section>
   </div>
 
-  <script>
-    function copyScript() {
-      navigator.clipboard.writeText("loadstring(\"your script here\")()")
-        .then(() => alert("Script copied!"))
-        .catch(err => alert("Copy failed."));
-    }
+  <div class="notification" id="notification">
+    <i class="fas fa-check-circle"></i>
+    <span id="notificationText">Script copied to clipboard!</span>
+  </div>
 
+  <script>
+    // Tab navigation
     function goToTab(index) {
       const container = document.getElementById("tabContainer");
       container.style.transform = `translateX(-${index * 100}vw)`;
+      
+      // Update active nav link
+      const navLinks = document.querySelectorAll('nav a');
+      navLinks.forEach(link => link.style.color = '#00f2ff');
+      navLinks[index].style.color = '#ffffff';
     }
+
+    // Copy script function with improved feedback
+    function copyScript() {
+      const scriptContent = "loadstring(game:HttpGet(\"https://pastebin.com/raw/Piw5bqGq"\))()";
+      
+      navigator.clipboard.writeText(scriptContent)
+        .then(() => {
+          showNotification('Script copied to clipboard!');
+        })
+        .catch(err => {
+          showNotification('Failed to copy. Please try again.', 'error');
+        });
+    }
+
+    // Discord button function
+    function showDiscord() {
+      showNotification('Join our Discord: discord.gg/rTw5M8dRXN', 'info');
+      // In a real implementation, you might window.open() the Discord link
+    }
+
+    // Premium button function
+    function showPremium() {
+      showNotification('Coming Soon...', 'info');
+      // In a real implementation, you might window.open() the purchase page
+    }
+
+    // Notification system
+    function showNotification(message, type = 'success') {
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notificationText');
+      
+      // Set notification content and style based on type
+      notificationText.textContent = message;
+      
+      // Reset classes
+      notification.className = 'notification';
+      
+      // Add type-specific class
+      if (type === 'error') {
+        notification.style.background = '#ff4444';
+        notification.innerHTML = `<i class="fas fa-exclamation-circle"></i> <span id="notificationText">${message}</span>`;
+      } else if (type === 'info') {
+        notification.style.background = '#44aaff';
+        notification.innerHTML = `<i class="fas fa-info-circle"></i> <span id="notificationText">${message}</span>`;
+      } else {
+        notification.style.background = '#00ff88';
+        notification.innerHTML = `<i class="fas fa-check-circle"></i> <span id="notificationText">${message}</span>`;
+      }
+      
+      // Show notification
+      notification.classList.add('show');
+      
+      // Hide after 3 seconds
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Animate user count on load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Start on the first tab
+      goToTab(0);
+      
+      // Animate user count
+      let count = 0;
+      const target = 10000;
+      const increment = target / 50;
+      const userCount = document.getElementById('userCount');
+      
+      const timer = setInterval(() => {
+        count += increment;
+        if (count >= target) {
+          count = target;
+          clearInterval(timer);
+        }
+        userCount.textContent = Math.floor(count).toLocaleString() + '+';
+      }, 30);
+    });
   </script>
 </body>
 </html>
