@@ -1,11 +1,22 @@
 function copyScript() {
   const script = 'loadstring(game:HttpGet("https://pastebin.com/raw/Piw5bqGq"))()';
   navigator.clipboard.writeText(script).then(() => {
-    alert("Script kopyalandı!");
+    alert("Script copied!");
   });
 }
 
-// Basit bir arka plan efekti (daha gelişmiş versiyon yaparız)
+// Tabs
+document.querySelectorAll(".tab-button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".tab-button").forEach(b => b.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+    
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.tab).classList.add("active");
+  });
+});
+
+// Background particle effect
 const canvas = document.getElementById("background");
 const ctx = canvas.getContext("2d");
 
@@ -32,7 +43,6 @@ function animate() {
     ctx.fillStyle = "white";
     ctx.fill();
 
-    // Kaçma efekti (mouse'a yakınsa itilir)
     if (mouse.x && mouse.y) {
       let dx = p.x - mouse.x;
       let dy = p.y - mouse.y;
