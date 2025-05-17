@@ -9,15 +9,23 @@
 <body>
   <canvas id="background"></canvas>
 
-  <div class="container">
-    <h1>XVC Hub</h1>
-    <p>Best Script Hub!</p>
+  <div class="tab-container">
+    <div class="tabs">
+      <button class="tab-button active" data-tab="script">Script</button>
+      <button class="tab-button" data-tab="games">Supported Games</button>
+      <button class="tab-button" data-tab="users">Script Users</button>
+    </div>
 
-    <button onclick="copyScript()">copy script</button>
+    <div id="script" class="tab-content active">
+      <h1>XVC Hub</h1>
+      <p>The Best Script Hub!</p>
+      <button onclick="copyScript()">Copy Script</button>
+    </div>
 
-    <section class="games">
+    <div id="games" class="tab-content">
       <h2>Supported Games</h2>
-      3008
+      <ul>
+3008
 100 players Maze
 100 Player Slippery Stairs
 +1 Speed Maze
@@ -137,19 +145,20 @@ untitled drill game
 untitled boxing game
 Work at a Pizza Place
 Zombie Attack
-    </section>
+        <!-- Sen buraya istediğin kadar oyun ekleyeceksin -->
+      </ul>
+    </div>
 
-    <section class="testimonials">
+    <div id="users" class="tab-content">
       <h2>Script Users</h2>
       <div class="slider">
-        <!-- kayan kullanıcı yorumları -->
         <div class="comment">
           <img src="anon-avatar.png" class="avatar" />
-          <p><strong>imharshBANNEDagain</strong> ⭐⭐⭐⭐⭐<br />IT VERY GOOD BRO</p>
+          <p><strong>imharshBANNEDagain</strong><br />⭐⭐⭐⭐⭐<br />Amazing hub!</p>
         </div>
-        <!-- buraya daha fazlasını sen ekleyebilirsin -->
+        <!-- Daha fazla yorum eklenebilir -->
       </div>
-    </section>
+    </div>
   </div>
 
   <script src="script.js"></script>
