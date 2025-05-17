@@ -1,333 +1,199 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>XVC Hub</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
     }
 
     body {
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(#0f0f0f, #000);
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
       color: #fff;
       overflow-x: hidden;
     }
 
-    header {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      text-align: center;
-      background: linear-gradient(135deg, #000, #111);
-    }
-
-    header h1 {
-      font-size: 4rem;
-      color: #00fff7;
-    }
-
-    header p {
-      font-size: 1.5rem;
-      color: #aaa;
-      margin-top: 1rem;
-    }
-
     nav {
-      background: #111;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: #121212;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: center;
       gap: 2rem;
-      padding: 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      z-index: 10;
+      border-bottom: 1px solid #00f2ff33;
     }
 
     nav a {
-      color: #00fff7;
+      color: #0ff;
       text-decoration: none;
-      font-weight: bold;
-      transition: 0.3s;
+      font-size: 1rem;
+      position: relative;
+      padding-bottom: 4px;
     }
 
-    nav a:hover {
-      color: #fff;
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #0ff;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
     }
 
-    section {
-      padding: 5rem 2rem;
-      min-height: 100vh;
+    nav a:hover::after {
+      transform: scaleX(1);
+    }
+
+    .content {
+      display: flex;
+      transition: transform 0.8s ease;
+      width: 300vw;
+    }
+
+    .section {
+      height: 100vh;
+      width: 100vw;
+      padding: 6rem 4rem 2rem 4rem;
+      flex-shrink: 0;
+      overflow-y: auto;
     }
 
     .section-title {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin-bottom: 2rem;
-      color: #00fff7;
-      text-align: center;
+      color: #00f2ff;
+      text-shadow: 0 0 10px #00f2ff55;
     }
 
-    .script-box {
-      background: #111;
-      border: 1px solid #00fff7;
-      padding: 1rem;
-      border-radius: 10px;
-      max-width: 800px;
-      margin: 0 auto 2rem;
-      font-family: monospace;
-      position: relative;
-    }
-
-    .copy-btn {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: #00fff7;
+    .copy-area button {
+      background: linear-gradient(135deg, #00f2ff, #0ff);
       color: #000;
+      padding: 1rem 2rem;
       border: none;
-      padding: 0.5rem 1rem;
       cursor: pointer;
-      border-radius: 5px;
-      transition: 0.3s;
+      font-size: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 12px #00f2ff88;
+      transition: 0.3s ease;
     }
 
-    .copy-btn:hover {
-      background: #00d1cc;
+    .copy-area button:hover {
+      transform: scale(1.05);
+      background: linear-gradient(135deg, #0ff, #00e1e1);
     }
 
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
-    }
-
-    .game-card {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      padding: 1rem;
-      border-radius: 10px;
-      text-align: center;
-      transition: 0.3s;
-    }
-
-    .game-card:hover {
-      transform: translateY(-5px);
-      border-color: #00fff7;
-    }
-
-    .users-scroll {
+    .games-list {
       display: flex;
-      overflow-x: auto;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .games-list .game-card {
+      background: #1e1e1e;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      border-left: 4px solid #00f2ff;
+      box-shadow: 0 0 8px #00f2ff44;
+    }
+
+    .users-slider {
+      display: flex;
       gap: 1rem;
-      padding: 1rem;
-      scroll-snap-type: x mandatory;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scrollbar-width: none;
     }
 
     .user-card {
-      flex: 0 0 auto;
       background: #1a1a1a;
       padding: 1rem;
-      border-radius: 10px;
+      min-width: 180px;
+      border-radius: 12px;
+      box-shadow: 0 0 12px #0ff4;
       text-align: center;
-      scroll-snap-align: start;
-      min-width: 200px;
-      border: 1px solid #333;
+      flex-shrink: 0;
     }
 
-    .user-avatar {
-      width: 80px;
-      height: 80px;
+    .user-card img {
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
-      background: #333;
-      margin: 0 auto 1rem;
-    }
-
-    .user-name {
-      font-weight: bold;
-      color: #00fff7;
+      margin-bottom: 0.5rem;
+      border: 2px solid #0ff;
     }
   </style>
 </head>
-
 <body>
-  <header>
-    <h1>XVC Hub</h1>
-    <p>The Best Script Hub.</p>
-  </header>
-
   <nav>
-    <a href="#script">Script</a>
-    <a href="#games">Supported Games</a>
-    <a href="#users">Script Users</a>
+    <a href="#" onclick="goToTab(0)">Script</a>
+    <a href="#" onclick="goToTab(1)">Supported Games</a>
+    <a href="#" onclick="goToTab(2)">Script Users</a>
   </nav>
 
-  <section id="script">
-    <h2 class="section-title">Script</h2>
-    <div class="script-box" id="scriptBox">
-      loadstring(game:HttpGet("https://pastebin.com/raw/Piw5bqGq"))()
-      <button class="copy-btn" onclick="copyScript()">Copy</button>
-    </div>
-  </section>
-
-  <section id="games">
-    <h2 class="section-title">Supported Games</h2>
-    <div class="games-grid">
-3008
-100 players Maze
-100 Player Slippery Stairs
-+1 Speed Maze
-Arsenal
-A dusty trip
-Arise Crossover
-Anime Card Master
-Brookhaven RP
-Blade Ball
-Break In 2
-Blox Fruits
-Blue Lock: Rivals
-Brainrot IQ Test
-BedWars
-Breeding ranch
-Brainrot Evolution
-BIG Paintball 2
-Baddies
-Build A Boat For Treasure
-Bubble Gum Simulator INFINITY
-BARRY'S PRISON RUN
-Babu's Wall Hop Difficulty Chart 2
-Become a Plane and Fly
-Broken Bones IV - Ragdoll Sim
-Combat Warriors
-Counter Blox
-Chaos
-Color Game
-Climb and Jump Tower
-Dead Rails
-Dead Rivers
-DOORS
-Dress To Impress
-Da Hood
-Dig to Earth's CORE
-Dig the Backyard
-Desert Detectors
-Drill Digging Simulator
-Evade
-E.R.P.O.
-Eat Pizza to Grow GIGACHAD
-Elemental Powers Tycoon
-Fisch
-Forsaken
-Fling Things and People
-Flag Wars
-Fish Training
-Funky Friday
-GEF
-Grow Crystals
-Grow a Garden
-Gunfight Arena
-Gun Grounds FFA
-Gang up on people simulator
-Guess the Drawings
-Gym Track Race
-GO FISHING
-Horse Race
-Horrific Housing
-IQ Test
-Insane Elevator Testing
-Ice Tycoon
-Jail Break
-Jetpack Training
-KAT
-Lumber Tycoon 2
-Level Below
-Legends Of Speed
-Lootify
-LUCKY BLOCKS Battlegrounds
-Murder Mystery 2
-Muscle Legends
-Merge Tower Defense
-Meme Sea
-MIC UP
-Murderers VS Sheriffs Duels
-Math Murder
-Merge for SPEED
-Musical Chairs
-MINGLE [Carousel Game]
-Natural Disaster Survival
-Noob Defense
-Ninja Legends
-No Cooldown Doomspire
-Prison Life
-PETS GO
-Pet Simulator 99
-PLS DONATE
-Piggy
-Prison Pump
-Rivals
-Rebirth Champions: Ultimate 
-Roll A Friend
-Ray's Mod
-Rock Fruit
-Shrimp Game
-Survive and Kill the Killers in Area 51
-Scary Spelling
-Spelling Bee
-Supermarket Simulator
-Slap Battles
-Super Villain Tycoon
-Squid Game X
-Stairs To Heaven
-starving artists
-Sisyphus Training
-Survive The Killer
-Skinwalkers
-Taxi Boss
-The Strongest Battlegrounds
-Throw stuff for money
-The Chosen One
-Unnamed Shooter
-Ultimate Mining Tycoon
-untitled tag game
-untitled drill game
-untitled boxing game
-Work at a Pizza Place
-Zombie Attack
-    </div>
-  </section>
-
-  <section id="users">
-    <h2 class="section-title">Script Users</h2>
-    <div class="users-scroll">
-      <div class="user-card">
-        <div class="user-avatar"></div>
-        <div class="user-name">imharshBANNEDagain</div>
-        <p>IT VERY GOOD BRO</p>
+  <div class="content" id="tabContainer">
+    <!-- Script Tab -->
+    <section class="section" id="script">
+      <div class="section-title">XVC Hub Script</div>
+      <div class="copy-area">
+        <button onclick="copyScript()">Copy Script</button>
       </div>
-      <div class="user-card">
-        <div class="user-avatar"></div>
-        <div class="user-name">Third8702</div>
-        <p>How do I fuck myself</p>
+    </section>
+
+    <!-- Supported Games Tab -->
+    <section class="section" id="games">
+      <div class="section-title">Supported Games</div>
+      <div class="games-list">
+        <div class="game-card">Game 1 - Description</div>
+        <div class="game-card">Game 2 - Description</div>
+        <div class="game-card">Game 3 - Description</div>
+        <div class="game-card">Game 4 - Description</div>
+        <!-- Eklemeye devam edebilirsin -->
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- Script Users Tab -->
+    <section class="section" id="users">
+      <div class="section-title">Script Users</div>
+      <div class="users-slider">
+        <div class="user-card">
+          <img src="https://i.imgur.com/0y0y0y0.png" alt="anonymous" />
+          Anonymous<br>nice bro good fe animations
+        </div>
+        <div class="user-card">
+          <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-6E5833E59CE4F1BA4574A4CB7B9A97AF-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="imharshBANNEDagain" />
+          imharshBANNEDagain<br>IT VERY GOOD BRO
+        </div>
+        <div class="user-card">
+          <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-616BA4955BDB03EE157CC0118B4C31EC-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Third8702" />
+          Third8702<br>How do I fuck myself
+        </div>
+      </div>
+    </section>
+  </div>
 
   <script>
     function copyScript() {
-      const code = `loadstring(game:HttpGet(\"https://pastebin.com/raw/Piw5bqGq\"))()`;
-      navigator.clipboard.writeText(code);
-      alert("Script copied to clipboard!");
+      navigator.clipboard.writeText("loadstring(\"your script here\")()")
+        .then(() => alert("Script copied!"))
+        .catch(err => alert("Copy failed."));
+    }
+
+    function goToTab(index) {
+      const container = document.getElementById("tabContainer");
+      container.style.transform = `translateX(-${index * 100}vw)`;
     }
   </script>
 </body>
-
 </html>
